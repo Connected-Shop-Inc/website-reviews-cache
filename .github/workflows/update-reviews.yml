@@ -1,0 +1,32 @@
+name: Update Google Reviews Cache
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+  workflow_dispatch: # Allows manual triggering from GitHub
+
+jobs:
+  update-reviews:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run review fetch script
+        env:
+          PLACES_API_KEY: ${{ secrets.PLACES_API_KEY }}
+        run: node fetch-reviews.js
+
+      - name: Commit and push updated JSON
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add reviews.json
+          git diff --staged --quiet || (git commit -m "chore: update cached google reviews" && git push)
