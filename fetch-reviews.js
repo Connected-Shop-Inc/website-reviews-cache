@@ -4,11 +4,17 @@ const API_KEY = process.env.PLACES_API_KEY;
 const PLACE_ID = 'ChIJPRNZBdKx2YgRJ70TRgElpLA';
 
 async function updateReviews() {
-  const url = `https://places.googleapis.com/v1/places/${PLACE_ID}`;
+  if (!API_KEY) {
+    throw new Error('PLACES_API_KEY environment variable is missing or empty!');
+  }
+
+  // Appended ?key=${API_KEY} parameter directly to the endpoint URL
+  const url = `https://places.googleapis.com/v1/places/${PLACE_ID}?key=${API_KEY}`;
+  
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
-      'X-Goog-ApiKey': API_KEY,
+      'X-Goog-Api-Key': API_KEY, // Corrected header spelling with hyphen
       'X-Goog-FieldMask': 'rating,userRatingCount,googleMapsUri'
     }
   });
