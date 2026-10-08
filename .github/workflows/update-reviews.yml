@@ -4,7 +4,8 @@ on:
   schedule:
     - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch: # Allows manual triggering from GitHub
-
+permissions:
+  contents: write
 jobs:
   update-reviews:
     runs-on: ubuntu-latest
