@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const API_KEY = process.env.PLACES_API_KEY;
-const PLACE_ID = 'ChIJPRNZBdKx2YgRJ70TRgElpLA';
+const PLACE_ID = 'ChIJPRNZBdKx2YgRj7OTRgElpLA';
 
 async function updateReviews() {
   if (!API_KEY) {
